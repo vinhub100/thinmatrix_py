@@ -35,7 +35,7 @@ class Maths:
 
         camPos = camera.getPosition()
         trans = pyrr.matrix44.create_from_translation(pyrr.Vector3([-camPos[0],-camPos[1],-camPos[2]]))
-        viewMat = pyrr.matrix44.multiply( viewMat , trans)
+        viewMat = pyrr.matrix44.multiply(trans, viewMat)
 
         return viewMat
 

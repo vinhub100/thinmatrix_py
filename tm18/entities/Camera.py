@@ -7,7 +7,7 @@ class Camera:
     left, right, forward, backward = False, False, False, False
 
     lastX, lastY = 640, 360
-    mouseSensitivity = 0.02
+    mouseSensitivity = 0.2
     first_mouse = True
 
     def getPosition(self):
@@ -24,13 +24,17 @@ class Camera:
 
     def move(self):
         if self.left:
-            self.position[0] -= 0.5
+            self.position[0] -= 0.5 * cos(radians(self.yaw))
+            self.position[2] += 0.5 * sin(radians(self.yaw))
         if self.right:
-            self.position[0] += 0.5
+            self.position[0] += 0.5 * cos(radians(self.yaw))
+            self.position[2] -= 0.5 * sin(radians(self.yaw))
         if self.forward:
-            self.position[2] -= 0.5
+            self.position[0] -= 0.5 * sin(radians(self.yaw))
+            self.position[2] -= 0.5 * cos(radians(self.yaw))
         if self.backward:
-            self.position[2] += 0.5
+            self.position[0] += 0.5 * sin(radians(self.yaw))
+            self.position[2] += 0.5 * cos(radians(self.yaw))
 
     def kbMove(self, window, key, scancode, action, mode):
 

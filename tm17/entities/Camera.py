@@ -1,8 +1,9 @@
 import glfw
 from math import radians, sin, cos
 
+
 class Camera:
-    position =[0, 2, 0]
+    position = [0, 2, 0]
     pitch, yaw, roll = 0, 0, 0
     left, right, forward, backward = False, False, False, False
 
@@ -12,10 +13,10 @@ class Camera:
 
     def getPosition(self):
         return self.position
-    
+
     def getPitch(self):
         return self.pitch
-    
+
     def getYaw(self):
         return self.yaw
 
@@ -24,13 +25,17 @@ class Camera:
 
     def move(self):
         if self.left:
-            self.position[0] -= 0.5
+            self.position[0] -= 0.5 * cos(radians(self.yaw))
+            self.position[2] += 0.5 * sin(radians(self.yaw))
         if self.right:
-            self.position[0] += 0.5
+            self.position[0] += 0.5 * cos(radians(self.yaw))
+            self.position[2] -= 0.5 * sin(radians(self.yaw))
         if self.forward:
-            self.position[2] -= 0.5
+            self.position[0] -= 0.5 * sin(radians(self.yaw))
+            self.position[2] -= 0.5 * cos(radians(self.yaw))
         if self.backward:
-            self.position[2] += 0.5
+            self.position[0] += 0.5 * sin(radians(self.yaw))
+            self.position[2] += 0.5 * cos(radians(self.yaw))
 
     def kbMove(self, window, key, scancode, action, mode):
 
