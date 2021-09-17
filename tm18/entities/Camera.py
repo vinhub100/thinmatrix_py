@@ -1,14 +1,20 @@
 import glfw
 from math import radians, sin, cos
+from entities.Player import Player
 
 class Camera:
-    position =[0, 2, 0]
+    position =[0, 5, 0]
     pitch, yaw, roll = 0, 0, 0
     left, right, forward, backward = False, False, False, False
 
     lastX, lastY = 640, 360
     mouseSensitivity = 0.2
     first_mouse = True
+
+    player:Player = None
+    
+    def setPlayer(self, player:Player):
+        self.player = player
 
     def getPosition(self):
         return self.position
@@ -36,27 +42,57 @@ class Camera:
             self.position[0] += 0.5 * sin(radians(self.yaw))
             self.position[2] += 0.5 * cos(radians(self.yaw))
 
+
     def kbMove(self, window, key, scancode, action, mode):
 
         if key == glfw.KEY_ESCAPE and action == glfw.PRESS:
             glfw.set_window_should_close(window, True)
-
+        
         if key == glfw.KEY_W and action == glfw.PRESS:
             self.forward = True
-        elif key == glfw.KEY_W and action == glfw.RELEASE:
+        elif  key == glfw.KEY_W and action == glfw.RELEASE:
             self.forward = False
+
         if key == glfw.KEY_S and action == glfw.PRESS:
             self.backward = True
         elif key == glfw.KEY_S and action == glfw.RELEASE:
             self.backward = False
+
         if key == glfw.KEY_A and action == glfw.PRESS:
             self.left = True
         elif key == glfw.KEY_A and action == glfw.RELEASE:
             self.left = False
+
         if key == glfw.KEY_D and action == glfw.PRESS:
             self.right = True
         elif key == glfw.KEY_D and action == glfw.RELEASE:
             self.right = False
+        
+        if key == glfw.KEY_UP and action == glfw.PRESS:
+            self.player.currentSpeed = -self.player.RUN_SPEED
+        elif key == glfw.KEY_UP and action == glfw.RELEASE:
+            self.player.currentSpeed = 0
+        
+        if key == glfw.KEY_DOWN and action == glfw.PRESS:
+            self.player.currentSpeed = self.player.RUN_SPEED
+        elif key == glfw.KEY_DOWN and action == glfw.RELEASE:
+            self.player.currentSpeed = 0
+        
+        if key == glfw.KEY_RIGHT and action == glfw.PRESS:
+            self.player.currentTurnSpeed = self.player.TURN_SPEED
+        elif key == glfw.KEY_RIGHT and action == glfw.RELEASE:
+            self.player.currentTurnSpeed = 0
+        
+        if key == glfw.KEY_LEFT and action == glfw.PRESS:
+            self.player.currentTurnSpeed = -self.player.TURN_SPEED
+        elif key == glfw.KEY_LEFT and action == glfw.RELEASE:
+            self.player.currentTurnSpeed = 0
+        
+        if key == glfw.KEY_SPACE and action == glfw.PRESS:
+            self.player.jump()
+        
+
+
     
     def mouseMove(self, window, xpos, ypos):
         if self.first_mouse:

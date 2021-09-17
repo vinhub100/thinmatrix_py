@@ -1,22 +1,21 @@
 import glfw
 from math import radians, sin, cos
 
-
 class Camera:
-    position = [0, 2, 0]
+    position =[0, 2, 0]
     pitch, yaw, roll = 0, 0, 0
     left, right, forward, backward = False, False, False, False
 
     lastX, lastY = 640, 360
-    mouseSensitivity = 0.25
+    mouseSensitivity = 0.2
     first_mouse = True
 
     def getPosition(self):
         return self.position
-
+    
     def getPitch(self):
         return self.pitch
-
+    
     def getYaw(self):
         return self.yaw
 

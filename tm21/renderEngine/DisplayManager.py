@@ -2,6 +2,7 @@ import time
 import glfw
 from OpenGL.GL import *
 
+
 class DisplayManager :
     def __init__(self) -> None:
         self.display = None
@@ -34,6 +35,8 @@ class DisplayManager :
         # make the context current
         glfw.make_context_current(self.window)
 
+        glfw.set_input_mode(self.window, glfw.CURSOR, glfw.CURSOR_DISABLED)
+
         self.lastFrameTime = time.time()
 
 
@@ -52,14 +55,12 @@ class DisplayManager :
     def close(self):
         return glfw.window_should_close(self.window)
     
-    def connectKeyboardToCamera(self, camera):
+    def connectToCamera(self, camera):
         glfw.set_key_callback(self.window, camera.kbMove)
-    
-    def connectMouseToCamera(self, camera):
         glfw.set_cursor_pos_callback(self.window,camera.mouseMove)
+        glfw.set_scroll_callback(self.window, camera.mouseScrollCB)
+        glfw.set_mouse_button_callback(self.window, camera.mouseBtnClickCB)
     
     def getFrameTimeInSec(self):
         return self.delta
     
-
-

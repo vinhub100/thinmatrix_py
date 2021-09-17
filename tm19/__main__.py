@@ -32,8 +32,7 @@ if __name__ == "__main__":
 
     camera = Camera()
 
-    dm.connectKeyboardToCamera(camera)
-    dm.connectMouseToCamera(camera)
+    dm.connectToCamera(camera)
 
 
     grassModel = loadObjModel("res/grassModel.obj", loader)
@@ -132,8 +131,9 @@ if __name__ == "__main__":
     while not dm.close():
         # entity.increaseRotatioin(0, 1, 0)
         # entity2.increaseRotatioin(0, 0, 1)
-        camera.move()
         player.move(dm)
+        camera.move()
+        
 
         mRenderer.processTerrain(terrain1)
         mRenderer.processTerrain(terrain2)
