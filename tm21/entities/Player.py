@@ -4,7 +4,7 @@ from math import sin, cos, radians
 
 class Player(Entity):
     RUN_SPEED = 20.0
-    TURN_SPEED = 140.0
+    TURN_SPEED = 70.0
     GRAVITY = -50
     JUMP_POWER = 30
 
