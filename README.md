@@ -1,5 +1,5 @@
 # thinmatrix_py
-python3 implimentation of thinmatrix opengl tutorial 👍
+Python 3 implimentation of thinmatrix opengl tutorial 👍
 
 Link to <a href="https://www.youtube.com/c/ThinMatrix">thinmatrix - YouTube Channel </a>
 
