@@ -33,6 +33,7 @@ class Player(Entity):
             self.upwardsSpeed = 0
             self.inAir = False
             super().setPosition([position[0], self.TERRAIN_HEIGHT, position[2]])
+        # print(position)
         
     def jump(self):
         if not self.inAir:

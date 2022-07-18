@@ -70,11 +70,14 @@ if __name__ == "__main__":
 
     texturePack = TerrainTexturePack(backgroundTexture,rTexture,gTexture,bTexture)
     blendMap = TerrainTexture(loader.loadTexture("res/blendMap.png"))
+    # blendMap2 = TerrainTexture(loader.loadTexture("res/blendMap2.png"))
+    # blendMap3 = TerrainTexture(loader.loadTexture("res/blendMap3.png"))
+    # blendMap4 = TerrainTexture(loader.loadTexture("res/blendMap4.png"))
 
-    terrain1 = Terrain(0,-1,loader,texturePack,blendMap)
-    terrain2 = Terrain(-1,-1,loader,texturePack,blendMap)
-    terrain3 = Terrain(0,0,loader,texturePack,blendMap)
-    terrain4 = Terrain(-1,0,loader,texturePack,blendMap)
+    terrain1 = Terrain(0,-1,loader,texturePack,blendMap,"res/heightmap256.png")
+    # terrain2 = Terrain(-1,-1,loader,texturePack,blendMap2,)
+    # terrain3 = Terrain(0,0,loader,texturePack,blendMap3,)
+    # terrain4 = Terrain(-1,0,loader,texturePack,blendMap4,)
 
     # entity = Entity(texturedModel, [0, 0, -25], 0, 0, 0, 1)
     # entity2 = Entity(texturedModel, [1.0, 0.5, -1], 0, 0, 0, 0.15)
@@ -82,37 +85,37 @@ if __name__ == "__main__":
 
     grassField = []
     for i in range(0,100,1):
-        x = float(random.random() * 400 - 200)
+        x = float(random.random() * 750 - 25)
         # y = float(random.random() * 20 - 10)
         y = float(-0.75)
-        z = float(random.random() * 400 - 200)
+        z = float(random.random() * -750 - 25)
         tempGrass = Entity(grass,[x,y,z],0.0, random.random() * 180.0, 0.0, 1.4)
         grassField.append(tempGrass)
 
     trees = []
     for i in range(0,50,1):
-        x = float(random.random() * 600 - 300)
+        x = float(random.random() * 750 - 25)
         # y = float(random.random() * 20 - 10)
         y = float(-0.75)
-        z = float(random.random() * 600 - 300)
+        z = float(random.random() * -750 - 25)
         tempTree = Entity(tree,[x,y,z],0.0, random.random() * 180.0, 0.0, 8.0)
         trees.append(tempTree)
 
     polyTree = []
     for i in range(0,10,1):
-        x = float(random.random() * 600 - 300)
+        x = float(random.random() * 750 - 25)
         # y = float(random.random() * 20 - 10)
         y = float(-0.75)
-        z = float(random.random() * 600 - 300)
+        z = float(random.random() * -750 - 25)
         tempPolyTree = Entity(lowPolyTree,[x,y,z],0.0, random.random() * 180.0, 0.0, 0.8)
         polyTree.append(tempPolyTree)
     
     plants = []
     for i in range(0,50,1):
-        x = float(random.random() * 200 - 100)
+        x = float(random.random() * 750 - 25)
         # y = float(random.random() * 20 - 10)
         y = float(-0.75)
-        z = float(random.random() * 200 - 100)
+        z = float(random.random() * -750 - 25)
         tempPlant = Entity(plant,[x,y,z],0.0, random.random() * 180.0, 0.0, 0.6)
         plants.append(tempPlant)
 
@@ -121,7 +124,7 @@ if __name__ == "__main__":
     playerModel = loadObjModel("res/player.obj", loader)
     playerTexture = ModelTexture(loader.loadTexture("res/player.png"))
     playerTexModel = TexturedModel(playerModel, playerTexture)
-    player = Player(playerTexModel, [0, 0, -30], 0, 0, 0, 0.5)
+    player = Player(playerTexModel, [416, 0, -322], 0, 0, 0, 0.5)
 
     camera.setPlayer(player)
     # shader.start()
@@ -135,9 +138,9 @@ if __name__ == "__main__":
         camera.move()
 
         mRenderer.processTerrain(terrain1)
-        mRenderer.processTerrain(terrain2)
-        mRenderer.processTerrain(terrain3)
-        mRenderer.processTerrain(terrain4)
+        # mRenderer.processTerrain(terrain2)
+        # mRenderer.processTerrain(terrain3)
+        # mRenderer.processTerrain(terrain4)    
 
         for grs in grassField:
             mRenderer.processEntity(grs)
