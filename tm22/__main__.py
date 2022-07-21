@@ -87,8 +87,8 @@ if __name__ == "__main__":
     for i in range(0,100,1):
         x = float(random.random() * 750 - 25)
         # y = float(random.random() * 20 - 10)
-        y = float(-0.75)
         z = float(random.random() * -750 - 25)
+        y = terrain1.getHeightOfTerrain(x,z)
         tempGrass = Entity(grass,[x,y,z],0.0, random.random() * 180.0, 0.0, 1.4)
         grassField.append(tempGrass)
 
@@ -96,8 +96,8 @@ if __name__ == "__main__":
     for i in range(0,50,1):
         x = float(random.random() * 750 - 25)
         # y = float(random.random() * 20 - 10)
-        y = float(-0.75)
         z = float(random.random() * -750 - 25)
+        y = terrain1.getHeightOfTerrain(x,z)
         tempTree = Entity(tree,[x,y,z],0.0, random.random() * 180.0, 0.0, 8.0)
         trees.append(tempTree)
 
@@ -105,8 +105,8 @@ if __name__ == "__main__":
     for i in range(0,10,1):
         x = float(random.random() * 750 - 25)
         # y = float(random.random() * 20 - 10)
-        y = float(-0.75)
         z = float(random.random() * -750 - 25)
+        y = terrain1.getHeightOfTerrain(x,z)
         tempPolyTree = Entity(lowPolyTree,[x,y,z],0.0, random.random() * 180.0, 0.0, 0.8)
         polyTree.append(tempPolyTree)
     
@@ -114,8 +114,8 @@ if __name__ == "__main__":
     for i in range(0,50,1):
         x = float(random.random() * 750 - 25)
         # y = float(random.random() * 20 - 10)
-        y = float(-0.75)
         z = float(random.random() * -750 - 25)
+        y = terrain1.getHeightOfTerrain(x,z)
         tempPlant = Entity(plant,[x,y,z],0.0, random.random() * 180.0, 0.0, 0.6)
         plants.append(tempPlant)
 
@@ -134,7 +134,7 @@ if __name__ == "__main__":
     while not dm.close():
         # entity.increaseRotatioin(0, 1, 0)
         # entity2.increaseRotatioin(0, 0, 1)
-        player.move(dm)
+        player.move(dm, terrain1)
         camera.move()
 
         mRenderer.processTerrain(terrain1)

@@ -1,6 +1,7 @@
 from .Entity import Entity
 from renderEngine.DisplayManager import DisplayManager
 from math import sin, cos, radians
+from terrains.Terrain import Terrain
 
 class Player(Entity):
     RUN_SPEED = 20.0
@@ -20,7 +21,7 @@ class Player(Entity):
     def __init__(self, model, position, rotX, rotY, rotZ, scale) -> None:
         super().__init__(model, position, rotX, rotY, rotZ, scale)
     
-    def move(self, dm:DisplayManager):
+    def move(self, dm:DisplayManager, terrain:Terrain):
         super().increaseRotatioin(0, self.currentTurnSpeed * dm.getFrameTimeInSec(), 0)
         distance = self.currentSpeed * dm.getFrameTimeInSec()
         dx = distance * sin(radians(super().getRotY()))
@@ -29,10 +30,11 @@ class Player(Entity):
         self.upwardsSpeed += self.GRAVITY * dm.getFrameTimeInSec()
         super().increasePosition(0, self.upwardsSpeed * dm.getFrameTimeInSec(), 0)
         position = super().getPosition()
-        if(position[1]<self.TERRAIN_HEIGHT):
+        terrainHeight = terrain.getHeightOfTerrain(position[0],position[2]) 
+        if(position[1]<terrainHeight):
             self.upwardsSpeed = 0
             self.inAir = False
-            super().setPosition([position[0], self.TERRAIN_HEIGHT, position[2]])
+            super().setPosition([position[0], terrainHeight, position[2]])
         # print(position)
         
     def jump(self):

@@ -1,7 +1,9 @@
 
 import pyrr
 from PIL import Image
-from numpy import asarray, array
+from numpy import asarray, array, ndarray
+import math
+from toolbox.Maths import barryCentric
 
 from models.RawModel import RawModel
 from textures.TerrainTexturePack import TerrainTexturePack
@@ -18,6 +20,7 @@ class Terrain:
     model:RawModel = None
     texturePack:TerrainTexturePack = None
     blendMap:TerrainTexture = None
+    heights = None
 
     def __init__(self, gridX:int, gridZ:int, loader:Loader, texturePack:TerrainTexturePack, blendMap:TerrainTexture, heightMap:str) -> None:
         self.texturePack = texturePack
@@ -41,16 +44,34 @@ class Terrain:
     
     def getBlendMap(self) -> TerrainTexture:
         return self.blendMap
+    
+    def getHeightOfTerrain(self, worldX, worldZ):
+        terrainX = worldX - self.x
+        terrainZ = worldZ - self.z
+        heights_len = len(self.heights) - 1
+        gridSquareSize = float(self.SIZE) / heights_len
+        gridX = int(math.floor(terrainX/gridSquareSize))
+        gridZ = int(math.floor(terrainZ/gridSquareSize))
+        if(gridX >= heights_len or gridZ >= heights_len or gridX < 0 or gridZ < 0):
+            return 0
+        xCoord = (terrainX % gridSquareSize)/gridSquareSize
+        zCoord = (terrainZ % gridSquareSize)/gridSquareSize
+        tHeight = 0
+        if(xCoord <= (1-zCoord)):
+            tHeight = barryCentric([0.0,self.heights[gridX][gridZ],0.0],[1.0,self.heights[gridX+1][gridZ],0.0],[0.0,self.heights[gridX][gridZ+1],1.0],[xCoord,zCoord])
+        else:
+            tHeight = barryCentric([1.0,self.heights[gridX+1][gridZ],0.0],[1.0,self.heights[gridX+1][gridZ+1],1.0],[0.0,self.heights[gridX][gridZ+1],1.0],[xCoord,zCoord])
+        return tHeight
 
     def generateTerrain(self,loader:Loader, heightMap:str) -> RawModel:
-
-        print(heightMap)
         try:
             image = Image.open('res/heightmap256.png')
         except Exception as e:
             print('No Height Map Loaded')
         
         self.VERTEX_COUNT = image.height
+
+        self.heights = ndarray(shape=(self.VERTEX_COUNT,self.VERTEX_COUNT), dtype=float)
 
         count = self.VERTEX_COUNT ** 2
         vertices = [0.0] * (count * 3)
@@ -63,7 +84,10 @@ class Terrain:
         for i in range(0, self.VERTEX_COUNT,1):
             for j in range(0, self.VERTEX_COUNT,1):
                 vertices[vertexPointer*3] = float(j)/(float(self.VERTEX_COUNT)-1)*self.SIZE
-                vertices[vertexPointer*3+1] = self.getHeight(j,i,image=image)
+                hi = self.getHeight(j,i,image=image)
+                self.heights[j][i] = hi
+                vertices[vertexPointer*3+1] = hi
+                # print(self.heights[j][i],'.........',hi)
                 vertices[vertexPointer*3+2] = float(i)/(float(self.VERTEX_COUNT)-1)*self.SIZE
                 normal = self.calculateNormal(j,i,image=image)
                 normals[vertexPointer*3] = normal[0]
@@ -93,7 +117,7 @@ class Terrain:
                 pointer = pointer + 1
                 indices[pointer] = bottomRight
                 pointer = pointer + 1
-
+        
         return loader.loadToVAO(vertices,textureCoords,normals,indices)
     
 
